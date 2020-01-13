@@ -30,8 +30,7 @@ router.get("/movies/:id", async (req, res) => {
     }
 });
 
-router.get("/movies/:id", async (req, res) => {
-    
+router.get("/movies/:id", async (req, res) => { 
     try {
         let movie = await Movie.findOne("Frozen 2");
         res.send(movie);
