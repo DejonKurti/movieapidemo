@@ -25,6 +25,7 @@ module.exports = User;
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -58,8 +59,24 @@ const userSchema = new mongoose.Schema({
   graduated: {
     type: Boolean,
     default: false
-  }
+  },
+  tokens: [
+    {
+      token:{
+        type:String,
+        required:true
+      }
+    }
+  ]
 });
+
+userSchema.methods.generateToken = async function() {
+  const user = this;
+  const token = jwt.sign({_id: user._id.toString() }, "obeysudo");
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+  return token;
+};
 
 userSchema.pre("save", async function(next) {
   const user = this;
