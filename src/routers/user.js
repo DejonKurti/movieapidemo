@@ -80,6 +80,20 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+router.post("/users/logout", auth, async(req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(token => {
+      console.log(token.token);
+      return token.token !== req.token;
+      //We ONLY return the tokens that do not match the bearer token
+    });
+    await req.user.save();
+    res.send('You have logged out');
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.get("/users", async (req, res) => {
   try {
     let users = await User.find({});
