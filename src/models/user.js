@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateToken = async function() {
   const user = this;
-  const token = jwt.sign({_id: user._id.toString() }, "obeysudo");
+  const token = jwt.sign({ _id: user._id.toString() }, "obeysudo");
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
