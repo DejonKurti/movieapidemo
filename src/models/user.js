@@ -70,6 +70,14 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.tokens;
+  delete userObject.password;
+  return userObject;
+}
+
 userSchema.methods.generateToken = async function() {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, "obeysudo");
@@ -86,7 +94,6 @@ userSchema.pre("save", async function(next) {
   next();
 });
 //when we send a post or patch request, then bcrypt will run BEFORE the user password is saved to the mongo object.
-
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
     if(!user) {
