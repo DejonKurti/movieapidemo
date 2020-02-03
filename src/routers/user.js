@@ -110,7 +110,7 @@ router.get("/users/me", auth, async(req, res) => {
 
 router.get("/users/:id", async (req, res) => {
   try {
-    let user = await User.findyyId(req.params.id);
+    let user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).send();
     }

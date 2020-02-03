@@ -29,11 +29,11 @@ testFunction(); */
 const Review = require("./models/review");
 const User = require("./models/user");
 
-const test = async() => {
-    const review = await Review.findById  ("5e33007ea901a936fc39531f");  //find the review
-    await review.populate("owner").execPopulate(); //find the owner of the review
-    console.log(review.owner);
+const main = async() => {
+    const user = await User.findById  ("5e38490693ccea2334e186eb");  //find the review
+    await user.populate("reviews").execPopulate(); //find the owner of the review
+    console.log(user.reviews);
 };
-test();
+main();
 
 

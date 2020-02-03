@@ -3,6 +3,15 @@ const Review = require("../models/review");
 const auth = require("../middleware/auth");
 const router = new express.Router();
 
+router.get("/reviews/me", auth, async(req, res) => {
+    try {
+      await req.user.populate("reviews").execPopulate();
+      res.send(req.user.reviews);
+    } catch (error) {
+      res.send(error);
+    }
+  });
+
 router.get("/reviews/:id", async (req, res) => {
     const review = req.params.id;
     try {
