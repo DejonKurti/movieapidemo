@@ -20,10 +20,10 @@ const Review = mongoose.model("Review", {
         required: true,
         ref: "User"
     }
-},
+}/* ,
 {
     timestamps: true
-}
+} */
 );
 
 module.exports = Review;

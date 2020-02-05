@@ -1,6 +1,5 @@
 const multer = require("multer");
 const upload = multer({
-    dest:"profilePics",
     limits:{
       fileSize: 2000000
     },

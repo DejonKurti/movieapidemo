@@ -156,16 +156,33 @@ router.patch("/users/:id", async (req, res) => {
   }
 });
 
-router.post("/users/me/profilePic",
+router.post(
+  "/users/me/profilePic",
+  auth,
   upload.single("profilePic"),
-  async(req, res) => {
-    try{
+  async (req, res) => {
+    try {
+      req.user.profilePic = req.file.buffer;
+      await req.user.save();
       res.send("Upload Successful");
     } catch (error) {
       res.send(error);
     }
   }
 );
+
+router.get("/users/me/profilePic", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if(!user || !user.profilePic) {
+      throw new Error();
+    }
+    res.set("Content-Type", "image/jpg");
+    res.send(user.profilePic);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
 
 router.get("/reviews/:id", async (req, res) => {
   const movie = req.params.id;
